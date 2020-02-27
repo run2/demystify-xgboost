@@ -49,7 +49,11 @@ from sklearn.metrics import roc_auc_score,roc_curve
 
 print('Auc with weights',roc_auc_score(sample_label,sample_prob_ww))
 
+#0.946875
+
 print('Auc with no weights',roc_auc_score(sample_label,sample_prob_nw))
+
+#0.941375
 
 fprww,tprww,thww = roc_curve(sample_label,sample_prob_ww)
 fprnw,tprnw,thnw = roc_curve(sample_label,sample_prob_nw)
@@ -67,6 +71,62 @@ plt.ylabel('True Positive Rate')
 # show the legend
 plt.legend()
 
+
+
+
+import numpy as np
+for th in np.linspace(1,0.8,10):
+    more = np.array(sample_label)[np.where(sample_prob_ww>th)]
+    less = np.array(sample_label)[np.where(sample_prob_ww<=th)]
+    tp = float(len(more[more==1]))
+    fp = float(len(more[more==0]))
+    tn = float(len(less[less==0]))
+    fn = float(len(less[less==1]))
+
+    print(round(th,3))
+    print('TPR WW,FPR WW',tp/(tp+fn),fp/(fp+tn))
+
+    more = np.array(sample_label)[np.where(sample_prob_nw>th)]
+    less = np.array(sample_label)[np.where(sample_prob_nw<=th)]
+    tp = float(len(more[more==1]))
+    fp = float(len(more[more==0]))
+    tn = float(len(less[less==0]))
+    fn = float(len(less[less==1]))
+    
+    print('TPR NW,FPR NW',tp/(tp+fn),fp/(fp+tn))
+ 
+ ##
+#1.0
+#TPR WW,FPR WW 0.0 0.0
+#TPR NW,FPR NW 0.0 0.0
+#0.978
+#TPR WW,FPR WW 0.0 0.0
+#TPR NW,FPR NW 0.0 0.0
+#0.956
+#TPR WW,FPR WW 0.0 0.0
+#TPR NW,FPR NW 0.0 0.0
+#0.933
+#TPR WW,FPR WW 0.0 0.0
+#TPR NW,FPR NW 0.0 0.0
+#0.911
+#TPR WW,FPR WW 0.3 0.005
+#TPR NW,FPR NW 0.0 0.0
+#0.889
+#TPR WW,FPR WW 0.3 0.005
+#TPR NW,FPR NW 0.0 0.0
+#0.867
+#TPR WW,FPR WW 0.4 0.01
+#TPR NW,FPR NW 0.3 0.005
+#0.844
+#TPR WW,FPR WW 0.4 0.01
+#TPR NW,FPR NW 0.4 0.01
+#0.822
+#TPR WW,FPR WW 0.45 0.02
+#TPR NW,FPR NW 0.4 0.01
+#0.8
+#TPR WW,FPR WW 0.45 0.02
+#TPR NW,FPR NW 0.4 0.01
+##
 
 
 
