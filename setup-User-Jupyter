@@ -1,0 +1,35 @@
+# Strt and log into the container
+docker run -it dimystify/rnpython:1.0
+
+# Add user
+adduser ml-user
+<Enter Password>
+<Enter other details>
+usermod -aG sudo ml-user
+apt-get install sudo
+ 
+su - ml-user
+
+# Set up Jupyter password and openssl
+jupyter notebook --generate-config
+jupyter notebook password
+<Enter Password>
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout mycert.pem -out mycert.pem
+<Enter details as required>
+
+
+vim ~/.jupyter/jupyter_notebook_config.py
+# Set options for certfile, ip, password, and toggle off
+# browser auto-opening
+c.NotebookApp.certfile = u'/home/ml-user/mycert.pem'
+c.NotebookApp.keyfile = u'/home/ml-user/mycert.pem'
+# Set ip to '*' to bind on all interfaces (ips) for the public server
+c.NotebookApp.ip = '*'
+c.NotebookApp.password = u'sha1:bcd259ccf...<your hashed password here>'
+c.NotebookApp.open_browser = False
+
+# Try running Jupyter
+jupyter notebook
+
+# Install the toc extension
+sudo jupyter labextension install @jupyterlab/toc
