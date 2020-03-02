@@ -29,3 +29,12 @@ c.NotebookApp.open_browser = False
 
 # Try running Jupyter
 jupyter notebook
+
+# To exit without killing press CTRLP CTRLQ
+# Not commit and push
+docker ps 
+# Get the container id
+docker commit <container id> dimystify/rnpython:1.0
+docker images
+# Get the image id
+docker push gcr.io/poc-sed-star-symclass/dimystify-rnpython:1.0
